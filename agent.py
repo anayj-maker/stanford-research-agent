@@ -21,11 +21,29 @@ agent = create_agent(
     system_prompt="You are a helpful research assistant. You have two tools: one for searching a local Stanford AI report, and one for searching the live web. Use the local tool for questions about the report's contents. Use the web tool for questions about current events or anything recent. Use both if the question needs it."
 )
 
-user_question = input("Ask your question: ")
-response = agent.invoke({
-    "messages": [{"role": "user", "content": user_question}]
-})
+conversation = []
 
-print(response["messages"][-1].content)
+while True:
+    user_input = input("Ask your question (or type 'exit' to quit): ")
+    if user_input.lower() == 'exit':
+        break
+
+    conversation.append({"role": "user", "content": user_input})
+    response = agent.invoke({
+        "messages": conversation
+    })
+    assistant_message = response["messages"][-1].content
+    print(f"Assistant: {assistant_message}")
+    conversation.append({"role": "assistant", "content": assistant_message})
+
+
+
+
+
+
+
+
+
+
 
     
